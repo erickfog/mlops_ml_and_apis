@@ -3,6 +3,8 @@ from flask_basicauth import BasicAuth
 from textblob import TextBlob
 from sklearn.linear_model import LinearRegression
 import pickle
+import os
+
 
 colunas = ['tamanho','ano','garagem']
 modelo = pickle.load(open('models/modelo.sav','rb'))
@@ -33,4 +35,5 @@ def cotacao():
     preco = modelo.predict([dados_input])
     return jsonify(preco=preco[0])
 
-app.run(debug=True)
+port = int(os.environ.get('PORT', 10000))
+app.run(host='0.0.0.0', port=port,debug=True)
